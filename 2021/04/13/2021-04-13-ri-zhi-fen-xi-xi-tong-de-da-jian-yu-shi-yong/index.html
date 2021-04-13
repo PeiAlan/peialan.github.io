@@ -616,19 +616,18 @@ docker rm kibana
 docker run -p 5601:5601 -v /home/dockerapps/kibana:/usr/share/kibana --name kibana docker.elastic.co/kibana/kibana:7.10.1</code></pre>
 <p>修改kibana/config/kibana.yml，指定elasticsearch.hosts的正确地址并重启容器。<br>访问<a href="http://192.168.3.104:5601" target="_blank" rel="noopener">http://192.168.3.104:5601</a> 进入kibana管理页面，有界面显示表示成功，否则请查看日志具体排查问题。<br>kibana 安装完毕首次访问。</p>
 <h4 id="离线安装搭建-1"><a href="#离线安装搭建-1" class="headerlink" title="离线安装搭建"></a>离线安装搭建</h4><p>先参考官方教程：<a href="https://www.elastic.co/guide/en/kibana/6.5/rpm.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/kibana/6.5/rpm.html</a><br>跟 es步骤一样，下载、安装、配置、启动、停止<br>这里列一下配置、启动和停止：</p>
-<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><pre class=" language-shell"><code class="language-shell">[ellison@JV-PROD-MD Kibana-7.12.0]# vi /home/ellison/Kibana-7.12.0/kibana.yml</code></pre>
+<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><pre class=" language-shell"><code class="language-shell">[ellison@JV-PROD-MD Kibana-7.12.0]# vi /home/ellison/Kibana-7.12.0/kibana.yml</code></pre>
 <p>填写如下配置：</p>
 <pre class=" language-shell"><code class="language-shell">server.port: 5601                               // 监听端口
 server.host: "10.251.74.113"                     // 监听IP地址，建议内网ip
 elasticsearch.url: "http://10.251.74.113:9200"   // elasticsearch连接kibana的URL，也可以填写10.251.74.*，因为它们是一个集群</code></pre>
-<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><pre class=" language-shell"><code class="language-shell">[ellison@JV-PROD-MD Kibana-7.12.0]# ./bin/kibana </code></pre>
+<h4 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h4><pre class=" language-shell"><code class="language-shell">[ellison@JV-PROD-MD Kibana-7.12.0]# ./bin/kibana </code></pre>
 <p>后台进程启动</p>
 <pre class=" language-shell"><code class="language-shell">[ellison@JV-PROD-MD Kibana-7.12.0]# nohup ./bin/kibana &</code></pre>
 <p>启动无报错后.<br>验证服务看到有TCP进程后，去浏览器地址访问 <code>10.251.74.113:5601</code>会有界面出现。<br>验证服务命令：</p>
 <pre class=" language-shell"><code class="language-shell">[root@JV-PROD-MD Kibana-7.12.0]# ss -antlup | grep 5601</code></pre>
-<h3 id="停止"><a href="#停止" class="headerlink" title="停止"></a>停止</h3><pre class=" language-shell"><code class="language-shell">[root@JV-PROD-MD Kibana-7.12.0]# netstat -tunlp | grep 5601</code></pre>
+<h4 id="停止"><a href="#停止" class="headerlink" title="停止"></a>停止</h4><pre class=" language-shell"><code class="language-shell">[root@JV-PROD-MD Kibana-7.12.0]# netstat -tunlp | grep 5601</code></pre>
 <p>查到进程后直接<code>kill -9</code></p>
-<h3 id="Kibana-使用"><a href="#Kibana-使用" class="headerlink" title="Kibana 使用"></a>Kibana 使用</h3><p><code>Kibana</code>在搭建结束后，界面配置教程，参考官方使用手册<a href="https://www.elastic.co/guide/cn/kibana/current/getting-started.html" target="_blank" rel="noopener">Kibana使用手册</a></p>
 <h3 id="FileBeat的搭建过程"><a href="#FileBeat的搭建过程" class="headerlink" title="FileBeat的搭建过程"></a><code>FileBeat</code>的搭建过程</h3><h4 id="Docker方式安装搭建-1"><a href="#Docker方式安装搭建-1" class="headerlink" title="Docker方式安装搭建"></a><code>Docker</code>方式安装搭建</h4><p>*<em>1、启动FileBeat容器 *</em><br>注意映射spring boot的日志存放路径和elasticsearch地址。</p>
 <pre class=" language-shell"><code class="language-shell">docker run -d \
 --name=filebeat \
@@ -871,7 +870,8 @@ logging.files:
 [ellison@JV-PROD-MD filebeat-7.12.0-linux-x86_64]# ./filebeat -e -c filebeat.yml</code></pre>
 <p>后台启动服务方式：</p>
 <pre class=" language-shell"><code class="language-shell">[ellison@JV-PROD-MD filebeat-7.12.0-linux-x86_64]# nohup ./filebeat -e -c filebeat.yml &</code></pre>
-<h3 id="LogStash的搭建过程"><a href="#LogStash的搭建过程" class="headerlink" title="LogStash的搭建过程"></a><code>LogStash</code>的搭建过程</h3><h4 id="Docker方式安装搭建-2"><a href="#Docker方式安装搭建-2" class="headerlink" title="Docker方式安装搭建"></a><code>Docker</code>方式安装搭建</h4><h4 id="离线安装搭建-3"><a href="#离线安装搭建-3" class="headerlink" title="离线安装搭建"></a>离线安装搭建</h4><h2 id="各种组件的使用"><a href="#各种组件的使用" class="headerlink" title="各种组件的使用"></a>各种组件的使用</h2><script>
+<h3 id="LogStash的搭建过程"><a href="#LogStash的搭建过程" class="headerlink" title="LogStash的搭建过程"></a><code>LogStash</code>的搭建过程</h3><h4 id="Docker方式安装搭建-2"><a href="#Docker方式安装搭建-2" class="headerlink" title="Docker方式安装搭建"></a><code>Docker</code>方式安装搭建</h4><h4 id="离线安装搭建-3"><a href="#离线安装搭建-3" class="headerlink" title="离线安装搭建"></a>离线安装搭建</h4><h2 id="各种组件的使用"><a href="#各种组件的使用" class="headerlink" title="各种组件的使用"></a>各种组件的使用</h2><h3 id="Kibana-使用"><a href="#Kibana-使用" class="headerlink" title="Kibana 使用"></a>Kibana 使用</h3><p><code>Kibana</code>在搭建结束后，界面配置教程，参考官方使用手册<a href="https://www.elastic.co/guide/cn/kibana/current/getting-started.html" target="_blank" rel="noopener">Kibana使用手册</a></p>
+<script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
             if (!el.dataset.src) { return; }
