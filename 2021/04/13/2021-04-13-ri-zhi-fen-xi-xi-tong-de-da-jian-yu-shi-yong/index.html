@@ -865,12 +865,12 @@ logging.files:
 
 </code></pre>
 <h4 id="离线安装搭建-2"><a href="#离线安装搭建-2" class="headerlink" title="离线安装搭建"></a>离线安装搭建</h4><p>这里离线安装是傻瓜式的，直接<code>tar</code>后，上面的配置信息写到<code>filebeat.yml</code>文件启动即可。</p>
-<h3 id="启动-1"><a href="#启动-1" class="headerlink" title="启动"></a>启动</h3><p>保守一点，启动新进行测试启动，会验证<code>yaml</code>的配置文件是否正确，正常启动后 <code>ctrl+c</code>,然后利用后台启动即可。<br>非后台启动服务方式：</p>
+<h4 id="启动-1"><a href="#启动-1" class="headerlink" title="启动"></a>启动</h4><p>保守一点，启动新进行测试启动，会验证<code>yaml</code>的配置文件是否正确，正常启动后 <code>ctrl+c</code>,然后利用后台启动即可。<br>非后台启动服务方式：</p>
 <pre class=" language-shell"><code class="language-shell">[ellison@JV-PROD-MD ~]# cd filebeat-7.12.0-linux-x86_64
 [ellison@JV-PROD-MD filebeat-7.12.0-linux-x86_64]# ./filebeat -e -c filebeat.yml</code></pre>
 <p>后台启动服务方式：</p>
 <pre class=" language-shell"><code class="language-shell">[ellison@JV-PROD-MD filebeat-7.12.0-linux-x86_64]# nohup ./filebeat -e -c filebeat.yml &</code></pre>
-<h3 id="LogStash的搭建过程"><a href="#LogStash的搭建过程" class="headerlink" title="LogStash的搭建过程"></a><code>LogStash</code>的搭建过程</h3><h4 id="Docker方式安装搭建-2"><a href="#Docker方式安装搭建-2" class="headerlink" title="Docker方式安装搭建"></a><code>Docker</code>方式安装搭建</h4><h4 id="离线安装搭建-3"><a href="#离线安装搭建-3" class="headerlink" title="离线安装搭建"></a>离线安装搭建</h4><h2 id="各种组件的使用"><a href="#各种组件的使用" class="headerlink" title="各种组件的使用"></a>各种组件的使用</h2><h3 id="Kibana-使用"><a href="#Kibana-使用" class="headerlink" title="Kibana 使用"></a>Kibana 使用</h3><p><code>Kibana</code>在搭建结束后，界面配置教程，参考官方使用手册<a href="https://www.elastic.co/guide/cn/kibana/current/getting-started.html" target="_blank" rel="noopener">Kibana使用手册</a></p>
+<h3 id="LogStash的搭建过程"><a href="#LogStash的搭建过程" class="headerlink" title="LogStash的搭建过程"></a><code>LogStash</code>的搭建过程</h3><h4 id="Docker方式安装搭建-2"><a href="#Docker方式安装搭建-2" class="headerlink" title="Docker方式安装搭建"></a><code>Docker</code>方式安装搭建</h4><h4 id="离线安装搭建-3"><a href="#离线安装搭建-3" class="headerlink" title="离线安装搭建"></a>离线安装搭建</h4><h4 id="启动-2"><a href="#启动-2" class="headerlink" title="启动"></a>启动</h4><h2 id="各种组件的使用"><a href="#各种组件的使用" class="headerlink" title="各种组件的使用"></a>各种组件的使用</h2><h3 id="Kibana-使用"><a href="#Kibana-使用" class="headerlink" title="Kibana 使用"></a>Kibana 使用</h3><p><code>Kibana</code>在搭建结束后，界面配置教程，参考官方使用手册<a href="https://www.elastic.co/guide/cn/kibana/current/getting-started.html" target="_blank" rel="noopener">Kibana使用手册</a></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
