@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>2021-04-27-MySQL数据库快照备份</title>
+      <link href="/2021/04/27/2021-04-27-mysql-shu-ju-ku-kuai-zhao-bei-fen/"/>
+      <url>/2021/04/27/2021-04-27-mysql-shu-ju-ku-kuai-zhao-bei-fen/</url>
+      
+        <content type="html"><![CDATA[<h1 id="MySQL-数据库快照备份"><a href="#MySQL-数据库快照备份" class="headerlink" title="MySQL 数据库快照备份"></a><code>MySQL</code> 数据库快照备份</h1><p>主要使用<code>MySQL</code>自带的<code>mysqldump</code>工具实现。<br><strong>业务场景：</strong>对生产数据库的从库进行数据备份，生产系统是主从复制架构，并且未设置延迟复制。</p><h3 id="一、封装执行脚本"><a href="#一、封装执行脚本" class="headerlink" title="一、封装执行脚本"></a>一、封装执行脚本</h3><pre class=" language-shell"><code class="language-shell">#!/bin/bashnumber=5backup_dir=/root/mysqlbackupdd=`date +%Y-%m-%d-%H-%M-%S`tool=mysqldumpusername=rootpassword=$%BNK$%HJKdatabase_name=-Aif [ ! -d $backup_dir ]; then         mkdir -p $backup_dir; fi$tool -u$username -p$password $database_name > $backup_dir/$database_name-$dd.sqlecho "create $backup_dir/$database_name-$dd.dupm" >> $backup_dir/log.txtdelfile=`ls -l -crt  $backup_dir/*.sql | awk '{print $9 }' | head -1`count=`ls -l -crt  $backup_dir/*.sql | awk '{print $9 }' | wc -l`if [ $count -gt $number ]then  rm $delfile  echo "delete $delfile" >> $backup_dir/log.txtfi</code></pre><h3 id="二、设置Linux-cron定期执行"><a href="#二、设置Linux-cron定期执行" class="headerlink" title="二、设置Linux cron定期执行"></a>二、设置<code>Linux</code> <code>cron</code>定期执行</h3><p><code>Linux</code>安装<code>cron</code>服务，百度烂大街的。<br>使用<code>root</code>用户创建<code>cron</code>规则文件，例如<code>mysqldump.cron</code>。<br>并在<code>cron</code>文件中添加如下内容（<code>Linux</code> <code>cron</code>语法文章末尾有链接）：</p><pre class=" language-shell"><code class="language-shell">20 2 * * * . /etc/profile;/bin/sh /root/mysqlbackup/mysql_dump_script.sh</code></pre><p>（上面命令的意思就是，每天的<code>2：20</code>执行一次<code>mysql_dump_script.sh</code>脚本）。<br>然后使用命令行<code>crontab</code>命令添加<code>Linux</code>定时任务。</p><pre class=" language-shell"><code class="language-shell"># 添加crontab mysqldump.cron# 查看是否添加成功crontab -l</code></pre><h3 id="三、关于mysqldump的使用"><a href="#三、关于mysqldump的使用" class="headerlink" title="三、关于mysqldump的使用"></a>三、关于<code>mysqldump</code>的使用</h3><p><code>mysqldump</code> 是 <code>MySQL</code> 自带的逻辑备份工具。</p><p>它的备份原理是通过协议连接到 <code>MySQL</code> 数据库，将需要备份的数据查询出来，将查询出的数据转换成对应的<code>insert</code> 语句，当我们需要还原这些数据时，只要执行这些 <code>insert</code> 语句，即可将对应的数据还原。</p><pre class=" language-shell"><code class="language-shell"># 导出所有数据库mysqldump -uroot -proot --all-databases >/tmp/all.sql# 导出db1、db2两个数据库的所有数据mysqldump -uroot -proot --databases db1 db2 >/tmp/user.sql# 导出db1中的a1、a2表# 注意导出指定表只能针对一个数据库进行导出，且导出的内容中和导出数据库也不一样，导出指定表的导出文本中没有创建数据库的判断语句，只有删除表-创建表-导入数据mysqldump -uroot -proot --databases db1 --tables a1 a2  >/tmp/db1.sql</code></pre><p>其他更多资料建议参考博客：<br><a href="https://www.cnblogs.com/markLogZhu/p/11398028.html" target="_blank" rel="noopener">MySQL之mysqldump的使用</a></p><p><a href="https://www.cnblogs.com/chenmh/p/5300370.html" target="_blank" rel="noopener">MySQL mysqldump数据导出详解</a></p><h3 id="四、关于Linux-cron的使用"><a href="#四、关于Linux-cron的使用" class="headerlink" title="四、关于Linux cron的使用"></a>四、关于<code>Linux</code> <code>cron</code>的使用</h3><p>以下列出几个比较全的博客：<br><a href="https://www.runoob.com/linux/linux-comm-crontab.html" target="_blank" rel="noopener">菜鸟Linux crontab 命令</a></p><p><a href="https://www.cnblogs.com/peida/archive/2013/01/08/2850483.html" target="_blank" rel="noopener">每天一个linux命令（50）：crontab命令</a></p><p><a href="https://blog.csdn.net/wade3015/article/details/90289751" target="_blank" rel="noopener">Linux下的crontab定时执行任务命令详解</a></p><script>        document.querySelectorAll('.github-emoji')          .forEach(el => {            if (!el.dataset.src) { return; }            const img = document.createElement('img');            img.style = 'display:none !important;';            img.src = el.dataset.src;            img.addEventListener('error', () => {              img.remove();              el.style.color = 'inherit';              el.style.backgroundImage = 'none';              el.style.background = 'none';            });            img.addEventListener('load', () => {              img.remove();            });            document.body.appendChild(img);          });      </script>]]></content>
+      
+      
+      <categories>
+          
+          <category> mysql </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> mysql数据库快照备份 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>2021-04-13-日志分析系统的搭建与使用</title>
       <link href="/2021/04/13/2021-04-13-ri-zhi-fen-xi-xi-tong-de-da-jian-yu-shi-yong/"/>
       <url>/2021/04/13/2021-04-13-ri-zhi-fen-xi-xi-tong-de-da-jian-yu-shi-yong/</url>
