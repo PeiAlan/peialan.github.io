@@ -29,8 +29,8 @@
 
     <script src="https://cdn.jsdelivr.net/gh/PeiAlan/peialan.github.io/libs/jquery/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"><link rel="alternate" href="/atom.xml" title="一只小北北" type="application/atom+xml">
-</head>
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="一只小北北" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -410,7 +410,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h1 id="MySQL-索引总结"><a href="#MySQL-索引总结" class="headerlink" title="MySQL 索引总结"></a>MySQL 索引总结</h1><h2 id="生活中的索引"><a href="#生活中的索引" class="headerlink" title="生活中的索引"></a>生活中的索引</h2><p><code>MySQL</code> 官方对索引的定义为：索引<code>Index</code>是帮助 <code>MySQL</code> 高效获取数据的 数据结构。可以得到索引的本质：索引是数据结构。<br>上面的理解比较抽象，举一个例子，平时看任何一本书，首先看到的都是目 录，通过目录去查询书籍里面的内容会非常的迅速。</p>
-<h2 id="MySQL中的索引"><a href="#MySQL中的索引" class="headerlink" title="MySQL中的索引"></a>MySQL中的索引</h2><p><img src="/Users/ellisonpei/Desktop/apache/hexo/themes/hexo-theme-matery/source/medias/blog/image-20210430104449280-9751338.png" alt="image-20210430104449280"></p>
+<h2 id="MySQL中的索引"><a href="#MySQL中的索引" class="headerlink" title="MySQL中的索引"></a>MySQL中的索引</h2><p><img src="/medias/blog/image-20210430104449280-9751338.png" alt="image-20210430104449280"></p>
 <p><code>InnoDB</code> 存储引擎支持以下几种常见的索引：<strong>B+树索引</strong>、<strong>全文索引</strong>、<strong>哈希索引</strong>，其中比较关键的是 <code>B+</code>树索引，其他的索引有：<strong>聚集索引/聚簇索引</strong>、<strong>辅助索引/二级索引</strong>、<strong>联合索引/复合索引</strong>、<strong>覆盖索引/索引覆盖</strong>、<strong>自适应哈希索引</strong>、<strong>全文检索之倒排索引</strong>。 </p>
 <p>也有这么分类的：</p>
 <pre class=" language-txt"><code class="language-txt">普通索引：即一个索引只包含单个列，一个表可以有多个单列索引。
@@ -447,13 +447,13 @@
 <li>一棵深度为 k，且有 个节点，称为满二叉树(<code>Full Tree</code>)； </li>
 <li>一棵深度为 k，且 root 到 k-1 层的节点树都达到最大，第 k 层的所有节点都 连续集中 在 最左边,此时为完全二叉树（<code>Complete Tree</code>）</li>
 </ul>
-<p><img src="/Users/ellisonpei/Desktop/apache/hexo/themes/hexo-theme-matery/source/medias/blog/image-20210430%E4%BA%8C%E5%8F%89%E6%A0%91.png" alt="image-20210430143943895"></p>
+<p><img src="/medias/blog/image-20210430%E4%BA%8C%E5%8F%89%E6%A0%91.png" alt="image-20210430143943895"></p>
 <h4 id="平衡二叉树（AVL-树）"><a href="#平衡二叉树（AVL-树）" class="headerlink" title="平衡二叉树（AVL-树）"></a>平衡二叉树（AVL-树）</h4><ul>
 <li>左子树和右子树都是平衡二叉树； </li>
 <li>左子树和右子树的高度差绝对值不超过 1；</li>
 </ul>
-<p>平衡二叉树：<br><img src="/Users/ellisonpei/Desktop/apache/hexo/themes/hexo-theme-matery/source/medias/blog/image-20210430AVL.png" alt="image-20210430144033003"></p>
-<p>非平衡二叉树：<br><img src="/Users/ellisonpei/Desktop/apache/hexo/themes/hexo-theme-matery/source/medias/blog/image-20210430(noavl).png" alt="image-20210430144144824"></p>
+<p>平衡二叉树：<br><img src="/medias/blog/image-20210430AVL.png" alt="image-20210430144033003"></p>
+<p>非平衡二叉树：<br><img src="/medias/blog/image-20210430(noavl).png" alt="image-20210430144144824"></p>
 <pre class=" language-shell"><code class="language-shell"># 平衡二叉树的遍历 
 # 前序 ：6 ,3, 2, 5,7, 8（ROOT 节点在开头, 中 -左-右 顺序） 
 # 中序 ：2, 3, 5, 6,7, 8（中序遍历即为升序，左- 中 -右 顺序） 
@@ -480,19 +480,19 @@
 </ul>
 <p><code>B+</code>树的变体为<code>B*</code>树，在 <code>B+</code>树的非根和非叶子结点再增加指向兄弟的指针；<br><code>B*</code>树定义了非叶子结点关键字个数至少为<code>(2/3)*M</code>，即块的最低使用率为 <code>2/3</code>（代替 <code>B+</code>树的 <code>1/2</code>）。<br> 概要的了解下 <code>B</code> 树和 <code>B+</code>树。 </p>
 <p><code>B+</code>树是为磁盘或其他直接存取辅助设备设计的一种平衡查找树。在 <code>B+</code>树中， 所有记录节点都是按键值的大小顺序存放在同一层的叶子节点上，由各叶子节点 指针进行连接。比如：</p>
-<p><img src="/Users/ellisonpei/Desktop/apache/hexo/themes/hexo-theme-matery/source/medias/blog/image-20210510154619377.png" alt="image-20210510154619377"></p>
+<p><img src="/medias/blog/image-20210510154619377.png" alt="image-20210510154619377"></p>
 <h2 id="InnoDB中的索引"><a href="#InnoDB中的索引" class="headerlink" title="InnoDB中的索引"></a>InnoDB中的索引</h2><h3 id="聚集索引-聚簇索引"><a href="#聚集索引-聚簇索引" class="headerlink" title="聚集索引/聚簇索引"></a>聚集索引/聚簇索引</h3><p>​      <code>InnoDB</code> 中使用了聚集索引，就是将表的主键用来构造一棵 B+树，并且将整 张表的行记录数据存放在该 B+树的叶子节点中。也就是所谓的索引即数据，数 据即索引。由于聚集索引是利用表的主键构建的，所以每张表只能拥有一个聚集 索引。</p>
 <p>​      聚集索引的叶子节点就是数据页。换句话说，数据页上存放的是完整的每行 记录。因此聚集索引的一个优点就是：通过过聚集索引能获取完整的整行数据。 另一个优点是：对于主键的排序查找和范围查找速度非常快。 </p>
 <p>​      如果没有定义主键呢？<code>MySQL</code> 会使用唯一性索引，没有唯一性索引，<code>MySQL</code> 也会创建一个隐含列 <code>RowID</code>来做主键，然后用这个主键来建立聚集索引。</p>
-<p><img src="/Users/ellisonpei/Desktop/apache/hexo/themes/hexo-theme-matery/source/medias/blog/image-20210510163435857.png" alt="image-20210510163435857"></p>
+<p><img src="/medias/blog/image-20210510163435857.png" alt="image-20210510163435857"></p>
 <h3 id="辅助索引-二级索引"><a href="#辅助索引-二级索引" class="headerlink" title="辅助索引/二级索引"></a>辅助索引/二级索引</h3><p>​      上边介绍的聚簇索引只能在搜索条件是主键值时才能发挥作用，因为 B+树 中的数据都是按照主键进行排序的,那如果想以别的列作为搜索条件怎么 办？一般会建立多个索引，这些索引被称为辅助索引/二级索引。 </p>
 <p>​      对于辅助索引(<code>Secondary Index</code>，也称二级索引、非聚集索引)，叶子节点 并不包含行记录的全部数据。叶子节点除了包含键值以外，每个叶子节点中的索 引行中还包含了一个书签( bookmark)。该书签用来告诉 InnoDB 存储引擎哪里可 以找到与索引相对应的行数据。因此 InnoDB 存储引擎的辅助索引的书签就是相 应行数据的聚集索引键。</p>
-<p><img src="/Users/ellisonpei/Desktop/apache/hexo/themes/hexo-theme-matery/source/medias/blog/image-20210510163702328.png" alt="image-20210510163702328"><br>比如辅助索引<code>index(node)</code>，那么叶子节点中包含的数据就包括了(主键、 <code>note</code>)。</p>
+<p><img src="/medias/blog/image-20210510163702328.png" alt="image-20210510163702328"><br>比如辅助索引<code>index(node)</code>，那么叶子节点中包含的数据就包括了(主键、 <code>note</code>)。</p>
 <h3 id="回表"><a href="#回表" class="headerlink" title="回表"></a>回表</h3><p>​      辅助索引的存在并不影响数据在聚集索引中的组织，因此每张表上可以有多个辅助索引。当通过辅助索引来寻找数据时，<code>InnoDB</code> 存储引擎会遍历辅助索引 并通过叶级别的指针获得指向主键索引的主键，然后再通过主键索引（聚集索引） 来找到一个完整的行记录。这个过程也被称为回表。也就是根据辅助索引的值查询一条完整的用户记录需要使用到 <code>2</code>棵 <code>B+</code>树，即一次辅助索引，一次聚集索引。</p>
-<p><img src="/Users/ellisonpei/Desktop/apache/hexo/themes/hexo-theme-matery/source/medias/blog/image-20210510164318050.png" alt="image-20210510164318050"><br>​      为什么还需要一次回表操作呢?直接把完整的用户记录放到辅助索引 <code>d</code> 的叶子节点不就好了么？如果把完整的用户记录放到叶子节点是可以不用回表， 但是太占地方了，相当于每建立一棵 <code>B+</code>树都需要把所有的用户记录再都拷贝一 遍，这就有点太浪费存储空间了。而且每次对数据的变化要在所有包含数据的索 引中全部都修改一次，性能也非常低下。<br>​      很明显，回表的记录越少，性能提升就越高，需要回表的记录越多，使用二 级索引的性能就越低，甚至让某些查询宁愿使用全表扫描也不使用二级索引。<br>​      那什么时候采用全表扫描的方式，什么时候使用采用二级索引 + 回表的方 式去执行查询呢？这个就是查询优化器做的工作，查询优化器会事先对表中的记 录计算一些统计数据，然后再利用这些统计数据根据查询的条件来计算一下需要 回表的记录数，需要回表的记录数越多，就越倾向于使用全表扫描，反之倾向于 使用二级索引 + 回表的方式。</p>
+<p><img src="/medias/blog/image-20210510164318050.png" alt="image-20210510164318050"><br>​      为什么还需要一次回表操作呢?直接把完整的用户记录放到辅助索引 <code>d</code> 的叶子节点不就好了么？如果把完整的用户记录放到叶子节点是可以不用回表， 但是太占地方了，相当于每建立一棵 <code>B+</code>树都需要把所有的用户记录再都拷贝一 遍，这就有点太浪费存储空间了。而且每次对数据的变化要在所有包含数据的索 引中全部都修改一次，性能也非常低下。<br>​      很明显，回表的记录越少，性能提升就越高，需要回表的记录越多，使用二 级索引的性能就越低，甚至让某些查询宁愿使用全表扫描也不使用二级索引。<br>​      那什么时候采用全表扫描的方式，什么时候使用采用二级索引 + 回表的方 式去执行查询呢？这个就是查询优化器做的工作，查询优化器会事先对表中的记 录计算一些统计数据，然后再利用这些统计数据根据查询的条件来计算一下需要 回表的记录数，需要回表的记录数越多，就越倾向于使用全表扫描，反之倾向于 使用二级索引 + 回表的方式。</p>
 <h3 id="联合索引-复合索引"><a href="#联合索引-复合索引" class="headerlink" title="联合索引/复合索引"></a>联合索引/复合索引</h3><p>​      前面对索引的描述，隐含了一个条件，那就是构建索引的字段只有一个， 但实践工作中构建索引的完全可以是多个字段。所以，将表上的多个列组合起来 进行索引称之为联合索引或者复合索引，比如 <code>index(a,b)</code>就是将 <code>a</code>,<code>b</code> 两个 列组合起来构成一个索引。<br>​      千万要注意一点，建立联合索引只会建立 1 棵 B+树，多个列分别建立索引 会分别以每个列则建立 <code>B+</code>树，有几个列就有几个 B+树，比如，<code>index(note)</code>、 <code>index(b)</code>，就分别对 <code>note</code>,<code>b</code> 两个列各构建了一个索引。<br>​      index(note,b)在索引构建上，包含了两个意思：<br>​      1、先把各个记录按照 note 列进行排序。<br>​      2、在记录的 note 列相同的情况下，采用 b 列进行排序。</p>
-<p><img src="/Users/ellisonpei/Desktop/apache/hexo/themes/hexo-theme-matery/source/medias/blog/image-20210510173630220.png" alt="image-20210510173630220"></p>
-<h3 id="覆盖索引-索引覆盖"><a href="#覆盖索引-索引覆盖" class="headerlink" title="覆盖索引/索引覆盖"></a>覆盖索引/索引覆盖</h3><p>​      既然多个列可以组合起来构建为联合索引，那么辅助索引自然也可以由多个 列组成。<br>​      <code>InnoDB</code> 存储引擎支持覆盖索引(<code>covering index</code>，或称索引覆盖)，即从辅 助索引中就可以得到查询的记录，而不需要查询聚集索引中的记录。使用覆盖索 引的一个好处是辅助索引不包含整行记录的所有信息，故其大小要远小于聚集索 引，因此可以减少大量的 <code>IO</code>操作。所以记住，覆盖索引并不是索引类型的一种。<br><img src="/Users/ellisonpei/Desktop/apache/hexo/themes/hexo-theme-matery/source/medias/blog/image-20210512110647519.png" alt="image-20210512110647519"></p>
+<p><img src="/medias/blog/image-20210510173630220.png" alt="image-20210510173630220"></p>
+<h3 id="覆盖索引-索引覆盖"><a href="#覆盖索引-索引覆盖" class="headerlink" title="覆盖索引/索引覆盖"></a>覆盖索引/索引覆盖</h3><p>​      既然多个列可以组合起来构建为联合索引，那么辅助索引自然也可以由多个 列组成。<br>​      <code>InnoDB</code> 存储引擎支持覆盖索引(<code>covering index</code>，或称索引覆盖)，即从辅 助索引中就可以得到查询的记录，而不需要查询聚集索引中的记录。使用覆盖索 引的一个好处是辅助索引不包含整行记录的所有信息，故其大小要远小于聚集索 引，因此可以减少大量的 <code>IO</code>操作。所以记住，覆盖索引并不是索引类型的一种。<br><img src="/medias/blog/image-20210512110647519.png" alt="image-20210512110647519"></p>
 <h3 id="自适应哈希索引"><a href="#自适应哈希索引" class="headerlink" title="自适应哈希索引"></a>自适应哈希索引</h3><p>​      <code>InnoDB</code> 存储引擎除了前面所说的各种索引，还有一种自适应哈希索引， 知道 <code>B+</code>树的查找次数,取决于 <code>B+</code>树的高度,在生产环境中,<code>B+</code>树的高度一般为 <code>3~4</code>层,故需要 <code>3~4</code> 次的 <code>IO</code> 查询。<br>​      所以在 <code>InnoDB</code> 存储引擎内部自己去监控索引表，如果监控到某个索引经常 用，那么就认为是热数据，然后内部自己创建一个 <code>hash</code> 索引，称之为自适应哈 希索引( <code>Adaptive Hash Index,AHI</code>)，创建以后，如果下次又查询到这个索引， 那么直接通过 hash 算法推导出记录的地址，直接一次就能查到数据，比重复去 <code>B+ Tree</code> 索引中查询三四次节点的效率高了不少。<br>​      <code>InnoDB</code> 存储引擎使用的哈希函数采用除法散列方式，其冲突机制采用链表 方式。注意，对于自适应哈希索引仅是数据库自身创建并使用的，并不能对 其进行干预。通过命令 <code>show engine innodb status</code> 可以看到当前自适应哈希 索引的使用状况，测试查询结果如下:</p>
 <pre class=" language-txt"><code class="language-txt">
 =====================================
@@ -730,7 +730,7 @@ END OF INNODB MONITOR OUTPUT
 <p>​      这个建议对于表的主键来说更加适用，因为不仅是聚簇索引中会存储主键值， 其他所有的二级索引的节点处都会存储一份记录的主键值，如果主键适用更小的 数据类型，也就意味着节省更多的存储空间和更高效的 <code>I/O</code>。</p>
 <h3 id="索引选择性和前缀索引"><a href="#索引选择性和前缀索引" class="headerlink" title="索引选择性和前缀索引"></a>索引选择性和前缀索引</h3><p>​      创建索引应该选择选择性/离散性高的列。索引的选择性/离散性是指，不重复的索引值（也称为基数，<code>cardinality</code>)和数据表的记录总数（<code>N</code>)的比值，范围从 <code>1/N</code> 到 <code>1</code> 之间。索引的选择性越高则查询效率越高，因为选择性高的索引可以让 <code>MySQL</code> 在查找时过滤掉更多的行。唯一索引的选择性是 <code>1</code>，这是最好的索引选择性，性能也是最好的。<br>​      很差的索引选择性就是列中的数据重复度很高，比如性别字段，不考虑政治正确的情况下，只有两者可能，男或女。那么在查询时，即使使用这个索引， 从概率的角度来说，依然可能查出一半的数据出来。<br>​      哪列做为索引字段最好？当然是姓名字段，因为里面的数据没有任何重复， 性别字段是最不适合做索引的，因为数据的重复度非常高。<br>​      怎么算索引的选择性/离散性？比如 <code>order_exp</code>这个表：</p>
 <pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> <span class="token function">COUNT</span><span class="token punctuation">(</span><span class="token keyword">DISTINCT</span> order_no<span class="token punctuation">)</span><span class="token operator">/</span><span class="token function">count</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> cnt <span class="token keyword">from</span> order_exp<span class="token punctuation">;</span></code></pre>
-<img src="/Users/ellisonpei/Desktop/apache/hexo/themes/hexo-theme-matery/source/medias/blog/image-20210512172539977.png" alt="image-20210512172539977" style="zoom: 50%;">
+<img src="/medias/blog/image-20210512172539977.png" alt="image-20210512172539977" style="zoom: 50%;">
 
 <p>​      有时候需要索引很长的字符列，这会让索引变得大且慢。一个策略是前面提 到过的模拟哈希索引。<br>​      模拟哈希索引：<br>​      <code>order_exp</code> 表中 <code>order_note</code> 字段很长，想把它作为一个索引，可以增加 一个 order_not_hash 字段来存储 <code>order_note</code> 的哈希值，然后在 <code>order_not_hash</code> 上 建立索引，相对于之前的索引速度会有明显提升，一个是对完整的 <code>order_note</code> 做索引，而后者则是用整数哈希值做索引，显然数字的比较比字符串的匹配要高 效得多。<br>​      但是缺陷也很明显：<br>​      1、需要额外维护 <code>order_not_hash</code>字段；<br>​      2、哈希算法的选择决定了哈希冲突的概率，不良的哈希算法会导致重复值 很多；<br>​      3、不支持范围查找。<br>​      还可以做些什么改进呢？还可以索引开始的部分字符，这样可以大大节约索 引空间，从而提高索引效率。但这样也会降低索引的选择性。一般情况下需 要保证某个列前缀的选择性也是足够高的，以满足查询性能。（尤其对于 <code>BLOB</code>、 <code>TEXT</code> 或者很长的 <code>VARCHAR</code> 类型的列，应该使用前缀索引，因为 <code>MySQL</code> 不允许索 引这些列的完整长度）。<br>​      <strong>诀窍在于要选择足够长的前缀以保证较高的选择性，同时又不能太长（以便 节约空间)。前缀应该足够长，以使得前缀索引的选择性接近于索引整个列。换 句话说，前缀的“基数”应该接近于完整列的“基数”</strong>。<br>​      为了决定前缀的合适长度，可以找到最常见的值的列表，然后和最常见的前 缀列表进行比较。</p>
 <h3 id="只为用于搜索、排序或分组的列创建索引"><a href="#只为用于搜索、排序或分组的列创建索引" class="headerlink" title="只为用于搜索、排序或分组的列创建索引"></a>只为用于搜索、排序或分组的列创建索引</h3><p>​      只为出现在 <code>WHERE</code> 子句中的列、连接子句中的连接列创建索引， 而出现在查询列表中的列一般就没必要建立索引了，除非是需要使用覆盖索引； 又或者为出现在 <code>ORDER BY</code> 或 <code>GROUP BY</code> 子句中的列创建索引</p>
