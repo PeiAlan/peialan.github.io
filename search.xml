@@ -686,11 +686,7 @@
             
             <tag> Kafka </tag>
             
-            <tag> ActiveMQ </tag>
-            
-            <tag> RabbitMQ </tag>
-            
-            <tag> RocketMQ </tag>
+            <tag> MQ </tag>
             
         </tags>
       
