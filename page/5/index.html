@@ -298,20 +298,22 @@
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2020/05/19/2020-05-19-jvm-xue-xi-bi-ji/">
+                    <a href="/2020/05/19/2020-05-19-jvm-zhong-de-dui-xiang/">
                         <div class="card-image">
                             
                             
-                            <img src="https://cdn.jsdelivr.net/gh/PeiAlan/peialan.github.io/medias/featureimages/25.jpg" class="responsive-img" alt="2020-05-19—JVM 内存结构">
+                            <img src="https://cdn.jsdelivr.net/gh/PeiAlan/peialan.github.io/medias/featureimages/37.jpg" class="responsive-img" alt="2020-05-19—JVM 中的对象">
                             
-                            <span class="card-title">2020-05-19—JVM 内存结构</span>
+                            <span class="card-title">2020-05-19—JVM 中的对象</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                一、内存结构为什么要了解虚拟机&nbsp;&nbsp;&nbsp;&nbsp;JVM 不单单只支持 Java 语言，也支持其他语言（Scala、Kotlin、Groovy 等等） 区块链 2.0–以太坊(比特币是区块链 1.0) 中提供了 
+                                JVM 中的对象虚拟机中的对象对象的分配虚拟机遇到一条 new 指令时：根据 new 的参数是否能在常量池中定位到一个类的符号引用,如果没有，说明还未定义该类，抛出 
+ClassNotFoundException； 
+1**）检查加载**先
                             
                         </div>
                         <div class="publish-info">
@@ -392,6 +394,59 @@
                         
                         <a href="/tags/Lambda/">
                             <span class="chip bg-color">Lambda</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2020/05/19/2020-05-19-java-wei-yun-suan/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="https://cdn.jsdelivr.net/gh/PeiAlan/peialan.github.io/medias/featureimages/42.jpg" class="responsive-img" alt="2020-05-19—Java位运算">
+                            
+                            <span class="card-title">2020-05-19—Java位运算</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                Java位运算1、^（异或运算）————针对二进制，相同的为0，不同的为1
+public static void main(String[] args) {
+     System.out.println("2^3的运算结果：" + (2^
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-19
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/Java/" class="post-category">
+                                    Java
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/Java/">
+                            <span class="chip bg-color">Java</span>
+                        </a>
+                        
+                        <a href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/">
+                            <span class="chip bg-color">位运算</span>
                         </a>
                         
                     </div>
@@ -491,59 +546,6 @@
                         
                         <a href="/tags/ssl/">
                             <span class="chip bg-color">ssl</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2020/05/19/2020-05-19-java-wei-yun-suan/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="https://cdn.jsdelivr.net/gh/PeiAlan/peialan.github.io/medias/featureimages/42.jpg" class="responsive-img" alt="2020-05-19—Java位运算">
-                            
-                            <span class="card-title">2020-05-19—Java位运算</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                Java位运算1、^（异或运算）————针对二进制，相同的为0，不同的为1
-public static void main(String[] args) {
-     System.out.println("2^3的运算结果：" + (2^
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-19
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Java/" class="post-category">
-                                    Java
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Java/">
-                            <span class="chip bg-color">Java</span>
-                        </a>
-                        
-                        <a href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/">
-                            <span class="chip bg-color">位运算</span>
                         </a>
                         
                     </div>
