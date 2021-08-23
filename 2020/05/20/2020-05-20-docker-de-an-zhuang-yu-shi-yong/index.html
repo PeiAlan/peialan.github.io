@@ -512,40 +512,57 @@ $ docker stop</code></pre>
 <p>docker镜像打包操作：<a href="https://blog.csdn.net/qq_26235847/article/details/84635250" target="_blank" rel="noopener">https://blog.csdn.net/qq_26235847/article/details/84635250</a></p>
 <h2 id="docker将容器打包成镜像"><a href="#docker将容器打包成镜像" class="headerlink" title="docker将容器打包成镜像"></a>docker将容器打包成镜像</h2><p>docker commit :从容器创建一个新的镜像。<br>    docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]<br>OPTIONS说明：<br>    -a :提交的镜像作者；<br>    -c :使用Dockerfile指令来创建镜像；<br>    -m :提交时的说明文字；<br>    -p :在commit时，将容器暂停。</p>
 <p>实例：</p>
-<p>docker commit -m “description” -a “author_info”  （容器id或者名称）“镜像的仓库名”</p>
+<pre class=" language-shell"><code class="language-shell">docker commit -m "description" -a "author_info"  （容器id或者名称）“镜像的仓库名”</code></pre>
 <h2 id="docker修改容器内时间"><a href="#docker修改容器内时间" class="headerlink" title="docker修改容器内时间"></a>docker修改容器内时间</h2><p>进入宿主机查看容器 docker ps</p>
 <p>进入容器 docker exec -it “容器名“  /bin/bash</p>
 <p>查询时间 date -R 发现时区为0时区</p>
 <p>Tue, 21 Apr 2020 07:23:05 +0000</p>
 <p><strong>解决办法：</strong></p>
 <p><strong>1、复制相应的时区文件，替换系统时区文件；</strong></p>
-<p>cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</p>
+<pre class=" language-shell"><code class="language-shell">cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</code></pre>
 <p>有的容器基础镜像是有这个文件的，直接拷贝就可以，如果不能拷贝，则是因为创建镜像时依赖的基础镜像 运行的容器没有这两个文件，使用下面的办法</p>
 <p><strong>2、创建文件夹</strong></p>
-<p>mkdir -p /usr/share/zoneinfo/Asia</p>
+<pre class=" language-shell"><code class="language-shell">mkdir -p /usr/share/zoneinfo/Asia</code></pre>
 <p><strong>3、回到宿主机，复制宿主机里的文件到容器中</strong></p>
-<p>docker cp /usr/share/zoneinfo/Asia/Shanghai 容器ID或容器名:/usr/share/zoneinfo/Asia</p>
+<pre class=" language-shell"><code class="language-shell">docker cp /usr/share/zoneinfo/Asia/Shanghai 容器ID或容器名:/usr/share/zoneinfo/Asia</code></pre>
 <p><strong>4、进入容器</strong></p>
-<p>docker exec -it 容器Id或容器名 bash</p>
-<p>执行命令 cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</p>
+<pre class=" language-shell"><code class="language-shell">docker exec -it 容器Id或容器名 bash
+#执行命令 
+cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</code></pre>
 <p><strong>5、验证date</strong></p>
-<p>bash-5.0# date<br>Tue Sep 17 13:54:25 CST 2019</p>
-<h2 id="Dockerfile的使用"><a href="#Dockerfile的使用" class="headerlink" title="Dockerfile的使用"></a>Dockerfile的使用</h2><p> ———Dockerfile是一个文本格式的配置文件，用户可以使用Dockerfile快速创建自定义镜像</p>
-<p><strong>基础镜像、维护者信息、操作指令、容器CMD</strong></p>
-<p>dockerfile的指令分为两种：构建指令和设置指令。<br><strong>构建命令</strong>：用于构建镜像的时候执行的，不会在该镜像上的容器里执行。 </p>
-<p><strong>设置命令</strong>：用于设image的属性，将会在运行的容器里执行。</p>
-<p><img src="F:%5C%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99%5C%E7%AC%94%E8%AE%B0%5CMaYun1%5Crespository%5C%E5%9B%BE%E7%89%87%5C1572164083911.png" alt="1572164083911"></p>
-<p><strong>CMD</strong> <strong>VS</strong> <strong>ENTRYPOINT</strong></p>
-<p> ——— cmd给出的是一个容器的默认的可执行体</p>
-<p> ——— entrypoint才是正统地用于定义容器启动以后的执行体的</p>
-<p><strong>CMD</strong>—多个cmd最后一个生效</p>
-<p>—–shell用法： CMD echo “hello cmd!“</p>
-<p>—– exec用法：CMD [“/bin/bash”, “-c”, “echo ‘hello cmd!’”]</p>
-<p><strong>ENTRYPOINT</strong>—容器入口 — 多个entrypoint只有最后一个生效</p>
-<p>—–shell用法（不接受参数，不推荐）： CMD [“p in cmd”]</p>
-<p>​                                                                     ENTRYPOINT echo</p>
-<p>—– exec用法：CMD [“p in cmd”]</p>
-<pre><code>                     ENTRYPOINT ["echo"]</code></pre><p><img src="F:%5C%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99%5C%E7%AC%94%E8%AE%B0%5CMaYun1%5Crespository%5C%E5%9B%BE%E7%89%87%5C1572164252534.png" alt="1572164252534"></p>
+<pre class=" language-shell"><code class="language-shell">bash-5.0# date
+Tue Sep 17 13:54:25 CST 2019</code></pre>
+<h2 id="Dockerfile的使用"><a href="#Dockerfile的使用" class="headerlink" title="Dockerfile的使用"></a>Dockerfile的使用</h2><pre class=" language-tex"><code class="language-tex"> ---------Dockerfile是一个文本格式的配置文件，用户可以使用Dockerfile快速创建自定义镜像
+
+**基础镜像、维护者信息、操作指令、容器CMD**
+
+dockerfile的指令分为两种：构建指令和设置指令。
+**构建命令**：用于构建镜像的时候执行的，不会在该镜像上的容器里执行。 
+
+**设置命令**：用于设image的属性，将会在运行的容器里执行。
+
+**CMD** **VS** **ENTRYPOINT**
+
+ --------- cmd给出的是一个容器的默认的可执行体
+
+ --------- entrypoint才是正统地用于定义容器启动以后的执行体的
+
+**CMD**---多个cmd最后一个生效
+
+-----shell用法： CMD echo "hello cmd!“
+
+----- exec用法：CMD ["/bin/bash", "-c", "echo 'hello cmd!'"]
+
+**ENTRYPOINT**---容器入口 --- 多个entrypoint只有最后一个生效
+
+-----shell用法（不接受参数，不推荐）： CMD ["p in cmd"]
+
+ENTRYPOINT echo
+
+----- exec用法：CMD ["p in cmd"]
+
+                         ENTRYPOINT ["echo"]
+</code></pre>
 <pre class=" language-tex"><code class="language-tex">Dockerfile指令集
 1 FROM
 第一条指令必须为FROM指令，用于指定基础镜像。
@@ -572,8 +589,7 @@ $ docker stop</code></pre>
 11 ENTRYPOINT</code></pre>
 <p>关于Dockerfile更详细的解释，见博客：<a href="https://blog.csdn.net/qq_29999343/article/details/78318397" target="_blank" rel="noopener">https://blog.csdn.net/qq_29999343/article/details/78318397</a></p>
 <h2 id="详细的Docker总结"><a href="#详细的Docker总结" class="headerlink" title="详细的Docker总结"></a>详细的Docker总结</h2><p>博客地址：<a href="https://blog.csdn.net/deng624796905/article/details/86493330" target="_blank" rel="noopener">https://blog.csdn.net/deng624796905/article/details/86493330</a></p>
-<h2 id="配置自己的阿里云Docker镜像加速"><a href="#配置自己的阿里云Docker镜像加速" class="headerlink" title="配置自己的阿里云Docker镜像加速"></a>配置自己的阿里云Docker镜像加速</h2><p><img src="F:%5C%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99%5C%E7%AC%94%E8%AE%B0%5CMaYun1%5Crespository%5C%E5%9B%BE%E7%89%87%5C1567475941567.png" alt="1567475941567"></p>
-<pre class=" language-bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">mkdir</span> -p /etc/docker
+<h2 id="配置自己的阿里云Docker镜像加速"><a href="#配置自己的阿里云Docker镜像加速" class="headerlink" title="配置自己的阿里云Docker镜像加速"></a>配置自己的阿里云Docker镜像加速</h2><pre class=" language-bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">mkdir</span> -p /etc/docker
 <span class="token function">sudo</span> <span class="token function">tee</span> /etc/docker/daemon.json <span class="token operator">&lt;&lt;</span>-<span class="token string">'EOF'</span>
 <span class="token punctuation">{</span>
   <span class="token string">"registry-mirrors"</span><span class="token keyword">:</span> <span class="token punctuation">[</span><span class="token string">"https://9sdgml3e.mirror.aliyuncs.com"</span><span class="token punctuation">]</span>
@@ -581,6 +597,98 @@ $ docker stop</code></pre>
 EOF
 <span class="token function">sudo</span> systemctl daemon-reload
 <span class="token function">sudo</span> systemctl restart docker</code></pre>
+<h2 id="安装Docker-compose"><a href="#安装Docker-compose" class="headerlink" title="安装Docker-compose"></a>安装Docker-compose</h2><h3 id="1、安装"><a href="#1、安装" class="headerlink" title="1、安装"></a>1、安装</h3><p>方法一(本人使用此方法安装)：</p>
+<pre class=" language-shell"><code class="language-shell">curl -L https://get.daocloud.io/docker/compose/releases/download/1.12.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+
+chmod +x /usr/local/bin/docker-compose
+
+　　docker-compose version # 查看版本号，测试是否安装成功
+      你可以通过修改URL中的版本，可以自定义您的需要的版本。</code></pre>
+<p>方法二：</p>
+<pre class=" language-shell"><code class="language-shell">　 # 1、安装python-pip
+
+　　yum -y install epel-release
+　　yum -y install python-pip
+
+　　# 2、安装docker-compose
+　　pip install docker-compose
+
+　　# 待安装完成后，执行查询版本的命令确认安装成功
+
+　　docker-compose version
+　　spring.dubbo
+　　application.name
+　　registry.port</code></pre>
+<h3 id="2、配置"><a href="#2、配置" class="headerlink" title="2、配置"></a>2、配置</h3><p>配置 docker-compose.yml 文件(注意: 冒号 -号后必须空格, 各级别必须对齐).</p>
+<pre class=" language-yaml"><code class="language-yaml">　　version<span class="token punctuation">:</span> <span class="token string">'2'</span> <span class="token comment" spellcheck="true"># docker 的版本</span>
+　　services<span class="token punctuation">:</span> <span class="token comment" spellcheck="true"># 配置的容器列表</span>
+　　CONTAINER_NAME<span class="token punctuation">:</span> <span class="token comment" spellcheck="true"># 容器的名称</span>
+　　image<span class="token punctuation">:</span> BASE_IMAGE <span class="token comment" spellcheck="true"># 这个一个容器的基础镜像</span>
+　　ports<span class="token punctuation">:</span> <span class="token comment" spellcheck="true"># 你的容器需不需要做端口映射</span>
+　　<span class="token punctuation">-</span> <span class="token string">"host_port:container_port"</span>
+　　volumes<span class="token punctuation">:</span> <span class="token comment" spellcheck="true"># 数据卷配置</span>
+　　<span class="token punctuation">-</span> host_dir<span class="token punctuation">:</span>container_dir
+　　environment<span class="token punctuation">:</span> <span class="token comment" spellcheck="true"># 环境变量(map 的配置方式 key: value)</span>
+　　PARAM<span class="token punctuation">:</span> VALUE
+　　environments<span class="token punctuation">:</span> <span class="token comment" spellcheck="true"># 环境变量(数组的配置方式 - key=value)</span>
+　　<span class="token punctuation">-</span> PARAM=VALUE
+　　restart<span class="token punctuation">:</span> always <span class="token comment" spellcheck="true"># 容器的重启策略</span>
+　　dns<span class="token punctuation">:</span> <span class="token comment" spellcheck="true"># dns 的配置</span>
+　　<span class="token punctuation">-</span> 8.8.8.8</code></pre>
+<h3 id="3、yaml配置文件示例："><a href="#3、yaml配置文件示例：" class="headerlink" title="3、yaml配置文件示例："></a>3、yaml配置文件示例：</h3><pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">version</span><span class="token punctuation">:</span> <span class="token string">'3'</span>
+<span class="token key atrule">services</span><span class="token punctuation">:</span>
+  <span class="token key atrule">mysql-slave</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> mysql<span class="token punctuation">:</span><span class="token number">5.7</span>
+    <span class="token key atrule">depends_on</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> mysql<span class="token punctuation">-</span>master
+    <span class="token key atrule">links</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> mysql<span class="token punctuation">-</span>master
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> /docker<span class="token punctuation">-</span>data/mysql/slave/data<span class="token punctuation">:</span>/var/lib/mysql
+      <span class="token punctuation">-</span> /docker<span class="token punctuation">-</span>data/mysql/slave/conf<span class="token punctuation">:</span>/etc/mysql
+      <span class="token punctuation">-</span> /docker<span class="token punctuation">-</span>data/mysql/slave/log<span class="token punctuation">:</span>/var/log/mysql
+    <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+         <span class="token punctuation">-</span> <span class="token string">"3308:3306"</span>
+    <span class="token key atrule">restart</span><span class="token punctuation">:</span> always
+    <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+      <span class="token key atrule">MYSQL_ROOT_PASSWORD</span><span class="token punctuation">:</span> root
+    <span class="token key atrule">container_name</span><span class="token punctuation">:</span> mysql<span class="token punctuation">-</span>slave
+  <span class="token key atrule">mysql-master</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> mysql<span class="token punctuation">:</span><span class="token number">5.7</span>
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> /docker<span class="token punctuation">-</span>data/mysql/master/data<span class="token punctuation">:</span>/var/lib/mysql
+      <span class="token punctuation">-</span> /docker<span class="token punctuation">-</span>data/mysql/master/conf<span class="token punctuation">:</span>/etc/mysql
+      <span class="token punctuation">-</span> /docker<span class="token punctuation">-</span>data/mysql/master/log<span class="token punctuation">:</span>/var/log/mysql
+    <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+         <span class="token punctuation">-</span> <span class="token string">"3307:3306"</span>
+    <span class="token key atrule">restart</span><span class="token punctuation">:</span> always
+    <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+      <span class="token key atrule">MYSQL_ROOT_PASSWORD</span><span class="token punctuation">:</span> root
+    <span class="token key atrule">container_name</span><span class="token punctuation">:</span> mysql<span class="token punctuation">-</span>master
+  <span class="token key atrule">redis</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> redis<span class="token punctuation">:</span>6.2.5
+    <span class="token key atrule">container_name</span><span class="token punctuation">:</span> redis
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> /docker<span class="token punctuation">-</span>data/redis/conf/redis.conf<span class="token punctuation">:</span>/etc/redis/redis.conf
+      <span class="token punctuation">-</span> /docker<span class="token punctuation">-</span>data/redis/data<span class="token punctuation">:</span>/data
+      <span class="token punctuation">-</span> /docker<span class="token punctuation">-</span>data/redis/logs<span class="token punctuation">:</span>/logs
+    <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+         <span class="token punctuation">-</span> <span class="token string">"6379:6379"</span>
+    <span class="token key atrule">command</span><span class="token punctuation">:</span>
+      <span class="token comment" spellcheck="true"># 两个写入操作 只是为了解决启动后警告 可以去掉</span>
+      <span class="token comment" spellcheck="true"># echo 511 > /proc/sys/net/core/somaxconn </span>
+      <span class="token comment" spellcheck="true"># &amp;&amp; echo never > /sys/kernel/mm/transparent_hugepage/enabled &amp;&amp; </span>
+       /bin/bash <span class="token punctuation">-</span>c "redis<span class="token punctuation">-</span>server /etc/redis/redis.conf"
+  <span class="token key atrule">zookeeper</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> zookeeper
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> /docker<span class="token punctuation">-</span>data/mysql/master/data<span class="token punctuation">:</span>/var/lib/mysql
+      <span class="token punctuation">-</span> /docker<span class="token punctuation">-</span>data/mysql/master/conf<span class="token punctuation">:</span>/etc/mysql
+      <span class="token punctuation">-</span> /docker<span class="token punctuation">-</span>data/mysql/master/log<span class="token punctuation">:</span>/var/log/mysql
+    <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+         <span class="token punctuation">-</span> <span class="token string">"2181:2181"</span>
+    <span class="token key atrule">restart</span><span class="token punctuation">:</span> always
+    <span class="token key atrule">container_name</span><span class="token punctuation">:</span> zookeeper</code></pre>
 <h2 id="docker加速安装redis"><a href="#docker加速安装redis" class="headerlink" title="docker加速安装redis"></a>docker加速安装redis</h2><p>配置docker镜像加速：</p>
 <pre class=" language-bash"><code class="language-bash">$ vim /etc/docker/daemon.json
 <span class="token comment" spellcheck="true">#在此文件中加入：</span>
@@ -596,6 +704,9 @@ $ docker images
 $ docker run -d -p 6379:6379 --name myredis tnxkcso1.mirror.aliyuncs.com/library/redis
 
 $ docker <span class="token function">ps</span> <span class="token punctuation">(</span>查看运行中的镜像<span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true"># 带有映射路径的安装, 前提是配置好了自己的配置文件redis.conf</span>
+$ docker run -p 6379:6379 --name redis -v /docker-data/redis/conf/redis.conf:/etc/redis/redis.conf -v /docker-data/redis/data:/data -v /docker-data/redis/logs:/logs -d redis redis-server /etc/redis/redis.conf --appendonly <span class="token function">yes</span>
 </code></pre>
 <h2 id="Docker-安装Nginx"><a href="#Docker-安装Nginx" class="headerlink" title="Docker 安装Nginx"></a>Docker 安装Nginx</h2><pre class=" language-bash"><code class="language-bash"><span class="token punctuation">[</span>root@peiyanbing bing<span class="token punctuation">]</span><span class="token comment" spellcheck="true"># docker pull nginx</span>
 
