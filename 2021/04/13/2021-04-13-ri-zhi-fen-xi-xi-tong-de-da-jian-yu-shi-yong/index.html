@@ -414,6 +414,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h1 id="日志分析系统的搭建与使用"><a href="#日志分析系统的搭建与使用" class="headerlink" title="日志分析系统的搭建与使用"></a>日志分析系统的搭建与使用</h1><p>日志分析系统一般有<code>ELK</code>和<code>EFK</code>两种，区别在于使用日志搜集的组件不同<code>L</code>—<code>logstash</code>，<code>F</code>—<code>FileBeat</code>，剩下的两种分别是_<code>E</code>—<code>Elasticsearch</code>和<code>K</code>—<code>Kibana</code>。<br>过程中所有不懂的地方，请及时查看Elasticsearch<a href="https://www.elastic.co/cn/" target="_blank" rel="noopener">官方文档</a>，这个文档目前是业内好评做多的文档，很全！很全！很全！</p>
+<p>版本介绍： <code>ElasticSearch</code>、<code>Kibana</code>、<code>FileBeat</code> 均使用<code>7.12.0</code>版本。</p>
 <h2 id="各种组件的搭建"><a href="#各种组件的搭建" class="headerlink" title="各种组件的搭建"></a>各种组件的搭建</h2><h3 id="Elasticsearch的搭建过程"><a href="#Elasticsearch的搭建过程" class="headerlink" title="Elasticsearch的搭建过程"></a><code>Elasticsearch</code>的搭建过程</h3><h4 id="Docker方式安装搭建（可以连接外网并有访问权限）"><a href="#Docker方式安装搭建（可以连接外网并有访问权限）" class="headerlink" title="Docker方式安装搭建（可以连接外网并有访问权限）"></a><code>Docker</code>方式安装搭建（可以连接外网并有访问权限）</h4><p><strong>1、104服务器拉取<code>ElasticSearch</code>镜像</strong><br>注意：直接从<code>docker hub</code>搜索到的镜像版本可能比较低，这里以官方文档中给出的镜像为准：</p>
 <pre class=" language-shell"><code class="language-shell">docker pull docker.elastic.co/elasticsearch/elasticsearch:7.10.1</code></pre>
 <p>尝试执行，发现找不到资源，不清楚什么鬼，若无法拉取，可以改成这样（后面的一些操作照葫芦画瓢）：</p>
@@ -682,7 +683,7 @@ filebeat.inputs:
 - type: filestream
   enabled: true
   paths:     
-    - "/usr/local/filebeat-data/logs/*"
+    - /usr/local/filebeat-data/logs/*
 
 # ============================== Filebeat modules ==============================
 
@@ -804,7 +805,7 @@ filebeat.inputs:
 - type: filestream
   enabled: true
   paths:     
-    - "/usr/local/filebeat-data/logs/*"
+    - /usr/local/filebeat-data/logs/*
 
 # ============================== Filebeat modules ==============================
 
@@ -871,6 +872,41 @@ logging.files:
 <p>后台启动服务方式：</p>
 <pre class=" language-shell"><code class="language-shell">[ellison@JV-PROD-MD filebeat-7.12.0-linux-x86_64]# nohup ./filebeat -e -c filebeat.yml &</code></pre>
 <h3 id="LogStash的搭建过程"><a href="#LogStash的搭建过程" class="headerlink" title="LogStash的搭建过程"></a><code>LogStash</code>的搭建过程</h3><h4 id="Docker方式安装搭建-2"><a href="#Docker方式安装搭建-2" class="headerlink" title="Docker方式安装搭建"></a><code>Docker</code>方式安装搭建</h4><h4 id="离线安装搭建-3"><a href="#离线安装搭建-3" class="headerlink" title="离线安装搭建"></a>离线安装搭建</h4><h4 id="启动-2"><a href="#启动-2" class="headerlink" title="启动"></a>启动</h4><h2 id="各种组件的使用"><a href="#各种组件的使用" class="headerlink" title="各种组件的使用"></a>各种组件的使用</h2><h3 id="Kibana-使用"><a href="#Kibana-使用" class="headerlink" title="Kibana 使用"></a>Kibana 使用</h3><p><code>Kibana</code>在搭建结束后，界面配置教程，参考官方使用手册<a href="https://www.elastic.co/guide/cn/kibana/current/getting-started.html" target="_blank" rel="noopener">Kibana使用手册</a></p>
+<h2 id="ElasticSearch-Kibana-filebeat-设置用户名密码登陆"><a href="#ElasticSearch-Kibana-filebeat-设置用户名密码登陆" class="headerlink" title="ElasticSearch+Kibana+filebeat 设置用户名密码登陆"></a><code>ElasticSearch</code>+<code>Kibana</code>+<code>filebeat</code> 设置用户名密码登陆</h2><h3 id="修改ES配置"><a href="#修改ES配置" class="headerlink" title="修改ES配置"></a>修改<code>ES</code>配置</h3><p>首先修改<code>ES</code>的配置文件：<code>elasticsearch.yml</code>， 添加如下配置</p>
+<pre class=" language-yml"><code class="language-yml">xpack.security.enabled: true
+xpack.license.self_generated.type: basic
+xpack.security.transport.ssl.enabled: true</code></pre>
+<p>配置完后，重启<code>ES</code>。然后去<code>ES</code>的<code>bin</code>目录下，执行设置用户名和密码的命令，然后一次逐个设置密码:</p>
+<pre class=" language-shell"><code class="language-shell">./elasticsearch-setup-passwords interactive</code></pre>
+<p>这里会设置六个账号的密码：</p>
+<ul>
+<li>elastic</li>
+<li>apm_system</li>
+<li>kibana</li>
+<li>kibana_system</li>
+<li>logstash_system</li>
+<li>beats_system</li>
+<li>remote_monitoring_user</li>
+</ul>
+<h3 id="修改kibana配置"><a href="#修改kibana配置" class="headerlink" title="修改kibana配置"></a>修改<code>kibana</code>配置</h3><p>设置完毕后，去设置<code>kibana</code>的配置文件：</p>
+<pre class=" language-yml"><code class="language-yml">elasticsearch.username: "elastic"
+elasticsearch.password: "boe123456"</code></pre>
+<p>修改保存后，重启<code>Kibana</code>。<br>这时候 需要认证才可登陆，登陆账号密码为<code>elastic</code>/<code>boe123456</code>。</p>
+<h3 id="修改fileBeat配置"><a href="#修改fileBeat配置" class="headerlink" title="修改fileBeat配置"></a>修改<code>fileBeat</code>配置</h3><p>在安装<code>FileBeat</code>服务的每台机器上都修改下配置文件。</p>
+<p><code>filebeat.yml</code>配置文件中添加<code>ES</code>的访问用户名和密码。</p>
+<p><strong>注意：Kibana设置中也要添加用户名密码，均为ES的密码：</strong></p>
+<pre class=" language-yml"><code class="language-yml"># =================================== Kibana ===================================
+
+setup.kibana:
+  host: "10.251.74.113:5601"
+  username: "elastic"   # elasticsearch 服务用户名
+  password: "boe123456"  # elasticsearch 服务密码
+
+# ---------------------------- Elasticsearch Output ----------------------------
+output.elasticsearch:
+  hosts: ["10.251.74.113:9200"] # elasticsearch 服务地址
+  username: "elastic"   # elasticsearch 服务用户名
+  password: "boe123456"  # elasticsearch 服务密码</code></pre>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
